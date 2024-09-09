@@ -1,0 +1,29 @@
+<app-header></app-header>
+
+<div class="flex justify-center items-center my-20 bg-white">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="w-full max-w-sm bg-white p-8 shadow-xl rounded-lg">
+    <h2 class="text-2xl font-bold mb-6 text-center">Login</h2>
+
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="email">Email</label>
+      <input formControlName="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email">
+      <div *ngIf="email?.invalid && email?.touched" class="text-red-500 text-sm">
+        <span *ngIf="email?.errors?.['required']">Email is required.</span>
+        <span *ngIf="email?.errors?.['email']">Invalid email format.</span>
+      </div>
+    </div>
+
+    <div class="mb-2">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
+      <input formControlName="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="Password">
+      <div *ngIf="password?.invalid && password?.touched" class="text-red-500 text-sm">
+        <span *ngIf="password?.errors?.['required']">Password is required.</span>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between">
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Login</button>
+      <button class="text-black hover:text-blue-500 font-bold py-6 px-10 rounded focus:outline-none focus:shadow-outline underline" routerLink="/signup">Signup</button>
+    </div>
+  </form>
+</div>

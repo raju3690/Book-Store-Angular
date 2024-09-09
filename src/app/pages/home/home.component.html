@@ -1,0 +1,13 @@
+<app-header />
+<div class="flex justify-end my-4">
+  <i class="fas fa-shopping-cart text-black text-xl px-1 py-1 mx-2 my-3 cursor-pointer hover:text-gray-700" type="button" routerLink="/cart" >
+
+    <span *ngIf="cartCount() > 0" class="bg-red-500 text-white text-xs rounded-full px-2 py-1 -mx-2 relative -top-4 right-30">{{ cartCount() }}</span>
+  </i>
+  <button class="bg-blue-500 cursor-pointer text-white mx-2 my-1 hover:bg-blue-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" routerLink="/login">Login</button>
+  <button class="bg-blue-500 cursor-pointer text-white mr-10 ml-2 my-1 hover:bg-blue-700 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" routerLink="/signup">Signup</button>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+  <app-item *ngFor="let book of books" [book]="book"></app-item>
+</div>

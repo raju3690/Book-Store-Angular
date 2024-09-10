@@ -8,11 +8,13 @@
 
     <div class="flex justify-between items-center mb-2 mt-auto">
       <span class="text-sm font-medium text-indigo-600">Price: ${{book.price}}</span>
+      <i class="fa-solid fa-trash py-4 cursor-pointer" type="button" (click)="onDeleteItem(book.id)" ></i>
     </div>
 
 
     <!-- Quantity adjustment buttons -->
     <div class="flex justify-between items-center">
+    
       <button (click)="decreaseQuantity(book)" class="bg-red-600 text-white py-1 px-3 rounded hover:bg-red-700 transition-colors duration-300">
         -
       </button>
@@ -20,6 +22,7 @@
       <button (click)="increaseQuantity(book)" class="bg-green-600 text-white py-1 px-3 rounded hover:bg-green-700 transition-colors duration-300">
         +
       </button>
+      
     </div>
   </div>
 </div>

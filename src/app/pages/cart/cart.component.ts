@@ -13,15 +13,14 @@ import { CartItemsComponent } from './cart-items/cart-items.component';
   styleUrl: './cart.component.scss',
 })
 export class CartComponent {
-  cartItems: BookData[] = [];
-  totalAmount = 0;
 
   onCheckout() {
     console.log(`Checking out submit`);
   }
 
-  constructor(private itemService: ItemService) {
-    this.cartItems = this.itemService.getCartItems();
-    this.totalAmount = this.itemService.getCartTotal();
-  }
+  private itemService = inject(ItemService);
+  
+  cartItems = this.itemService.getCartItems();
+  cartCount = this.itemService.cartCount;
+  totalAmount = this.itemService.cartTotal;
 }

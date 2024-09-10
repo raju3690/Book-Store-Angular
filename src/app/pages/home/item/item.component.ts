@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { BookData } from './item.model';
 import { ItemService } from './item.service';
 
@@ -11,6 +11,10 @@ import { ItemService } from './item.service';
 })
 export class ItemComponent {
   @Input({required: true}) book!: BookData;
-  
 
+  private itemService = inject(ItemService);
+
+  onAddToCart(book: BookData) {
+    this.itemService.addToCart(book);
+  }
 }

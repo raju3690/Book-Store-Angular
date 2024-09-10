@@ -2,25 +2,24 @@
   <div class="relative h-48 overflow-hidden rounded-t-lg">
     <img [src]="book.imageURL" [alt]="book.name" class="w-full h-full object-contain">
   </div>
-  
+
   <div class="p-4 flex flex-col flex-grow">
     <h2 class="text-lg font-semibold mb-2 text-gray-800 line-clamp-2">{{book.name}}</h2>
-    
+
     <div class="flex justify-between items-center mb-2 mt-auto">
       <span class="text-sm font-medium text-indigo-600">Price: ${{book.price}}</span>
-      <div class="flex books-center">
-        <span class="text-yellow-500 mr-1 text-sm">★</span>
-        <span class="text-gray-600 text-sm">Rating: {{book.rating}}</span>
-      </div>
     </div>
-    
-    <p class="text-xs text-gray-600 mb-2">
-      {{book.isOutOfStock ? 'Out of Stock' : 'In Stock'}}
-    </p>
-    
-    <button (click)="onAddToCart(book)" class="bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 transition-colors duration-300">
-      Add to cart
-    </button>
+
+
+    <!-- Quantity adjustment buttons -->
+    <div class="flex justify-between items-center">
+      <button (click)="decreaseQuantity(book)" class="bg-red-600 text-white py-1 px-3 rounded hover:bg-red-700 transition-colors duration-300">
+        -
+      </button>
+      <span class="text-gray-600">Quantity: {{quantity()}}</span>
+      <button (click)="increaseQuantity(book)" class="bg-green-600 text-white py-1 px-3 rounded hover:bg-green-700 transition-colors duration-300">
+        +
+      </button>
+    </div>
   </div>
 </div>
-

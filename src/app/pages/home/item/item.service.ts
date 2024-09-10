@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
+import { BookData } from './item.model';
 
 @Injectable({
   providedIn: 'root',
@@ -71,6 +72,9 @@ export class ItemService {
     },
   ];
 
+  cartCount = signal(0);
+  private cartItems: BookData[] = [];
+
   constructor() {
     const books = localStorage.getItem('books');
 
@@ -81,5 +85,37 @@ export class ItemService {
 
   getBooks() {
     return this.books;
+  }
+
+  getBooksById(bookId: string) {
+    return this.books.filter((book) => book.id === bookId);
+  }
+
+  addToCart(book: BookData) {
+    if (!this.cartItems.some(item => item.id === book.id)) {
+      
+      this.cartItems.push(book);
+      this.cartCount.update(count => count + 1);
+      console.log(`${book.name} added to cart`);
+    } else {
+      console.log(`${book.name} is already in the cart`);
+    }
+  }
+
+  getCartCount() {
+    return this.cartCount;
+  }
+
+  getCartItems() {
+    console.log(this.cartItems);
+    return this.cartItems;
+  }
+
+  getCartTotal() {
+    let total = 0;
+    this.cartItems.forEach((item) => {
+      total += item.price;
+    });
+    return total;
   }
 }

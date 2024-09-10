@@ -14,6 +14,8 @@ export class CartItemsComponent {
 
   quantity = signal(1);
 
+  constructor(private itemService: ItemService) {}
+
   increaseQuantity(book: BookData) {
     this.quantity.update(q => q + 1);
   }
@@ -24,6 +26,8 @@ export class CartItemsComponent {
     }
   }
 
-  
+  onDeleteItem(bookId: string){
+    this.itemService.deleteCartItem(bookId);
+  }
 
 }

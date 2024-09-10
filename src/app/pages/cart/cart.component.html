@@ -1,22 +1,23 @@
 <app-header></app-header>
 
-<div *ngIf="cartItems.length > 0; else emptyCart">
+<div *ngIf="cartItems().length > 0; else emptyCart" class="min-h-screen flex flex-col justify-between">
     <div class="grid grid-cols-6 md:grid-cols-4 lg:grid-cols-4 gap-4 p-4">
-        <app-cart-items *ngFor="let book of cartItems" [book]="book"></app-cart-items>
+        <app-cart-items *ngFor="let book of cartItems()" [book]="book"></app-cart-items>
     </div>
 
-    <div>
-
-        <h2>Total: ${{ totalAmount }}</h2>
-
+    <div class="bg-slate-200 sticky bottom-0 flex flex-col items-center justify-center w-full">
+        <h2 class="text-xl font-semibold mt-2">Total: ${{ totalAmount() }}</h2>
+    
         <!-- Checkout button -->
         <button (click)="onCheckout()"
-            class="bg-indigo-600 text-white py-2 px-4 rounded mt-4 hover:bg-indigo-700 transition-colors duration-300">
-            Checkout
+            class="bg-indigo-600 text-white mb-2 py-2 px-4 rounded mt-4 hover:bg-indigo-700 transition-colors duration-300">
+            Proceed to pay
         </button>
-   </div>
+    </div>
+    
 </div>
 
 <ng-template #emptyCart>
     <p>Cart is empty</p>
 </ng-template>
+

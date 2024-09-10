@@ -16,7 +16,8 @@ import { count } from 'rxjs';
 export class HomeComponent {
   
   private itemService = inject(ItemService);
+
   books = this.itemService.getBooks();
-  cartCount = this.itemService.getCartCount();
+  cartCount = this.itemService.cartCount;
 
 }

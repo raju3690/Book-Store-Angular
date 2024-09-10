@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { BookData } from './item.model';
 
 @Injectable({
@@ -72,15 +72,31 @@ export class ItemService {
     },
   ];
 
-  cartCount = signal(0);
-  private cartItems: BookData[] = [];
+  private cartItemsSignal = signal<BookData[]>([]);
+  cartCount = computed(() => this.cartItemsSignal().length);
+  cartTotal = computed(() => this.cartItemsSignal().reduce((total, item) => total + item.price, 0));
 
   constructor() {
-    const books = localStorage.getItem('books');
+    this.loadBooksFromLocalStorage();
+    this.loadCartFromLocalStorage();
+  }
 
+  private loadBooksFromLocalStorage() {
+    const books = localStorage.getItem('books');
     if (books) {
       this.books = JSON.parse(books);
     }
+  }
+
+  private loadCartFromLocalStorage() {
+    const cartItems = localStorage.getItem('cartItems');
+    if (cartItems) {
+      this.cartItemsSignal.set(JSON.parse(cartItems));
+    }
+  }
+
+  private saveCartToLocalStorage() {
+    localStorage.setItem('cartItems', JSON.stringify(this.cartItemsSignal()));
   }
 
   getBooks() {
@@ -92,30 +108,26 @@ export class ItemService {
   }
 
   addToCart(book: BookData) {
-    if (!this.cartItems.some(item => item.id === book.id)) {
-      
-      this.cartItems.push(book);
-      this.cartCount.update(count => count + 1);
+    if (!this.cartItemsSignal().some(item => item.id === book.id)) {
+      this.cartItemsSignal.update(items => [...items, book]);
+      this.saveCartToLocalStorage();
       console.log(`${book.name} added to cart`);
     } else {
       console.log(`${book.name} is already in the cart`);
     }
   }
 
-  getCartCount() {
-    return this.cartCount;
-  }
-
   getCartItems() {
-    console.log(this.cartItems);
-    return this.cartItems;
+    return this.cartItemsSignal;
   }
 
-  getCartTotal() {
-    let total = 0;
-    this.cartItems.forEach((item) => {
-      total += item.price;
-    });
-    return total;
+  deleteCartItem(id: string) {
+    this.cartItemsSignal.update(items => items.filter(book => book.id !== id));
+    this.saveCartToLocalStorage();
+  }
+
+  clearCart() {
+    this.cartItemsSignal.set([]);
+    this.saveCartToLocalStorage();
   }
 }

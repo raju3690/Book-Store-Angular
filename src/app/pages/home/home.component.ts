@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterModule } from '@angular/router';
 import { ItemComponent } from "./item/item.component";
 import { ItemService } from './item/item.service';
+import { count } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -13,9 +14,9 @@ import { ItemService } from './item/item.service';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  cartCount = signal<number>(2);
   
   private itemService = inject(ItemService);
   books = this.itemService.getBooks();
+  cartCount = this.itemService.getCartCount();
 
 }

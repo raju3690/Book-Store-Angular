@@ -15,11 +15,11 @@
     <!-- Quantity adjustment buttons -->
     <div class="flex justify-between items-center">
     
-      <button (click)="decreaseQuantity(book)" class="bg-red-600 text-white py-1 px-3 rounded hover:bg-red-700 transition-colors duration-300">
+      <button (click)="decreaseQuantity()" class="bg-red-600 text-white py-1 px-3 rounded hover:bg-red-700 transition-colors duration-300">
         -
       </button>
-      <span class="text-gray-600">Quantity: {{quantity()}}</span>
-      <button (click)="increaseQuantity(book)" class="bg-green-600 text-white py-1 px-3 rounded hover:bg-green-700 transition-colors duration-300">
+      <span class="text-gray-600">Quantity: {{book.quantity}}</span>
+      <button (click)="increaseQuantity()" class="bg-green-600 text-white py-1 px-3 rounded hover:bg-green-700 transition-colors duration-300">
         +
       </button>
       

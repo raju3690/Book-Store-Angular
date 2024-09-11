@@ -14,13 +14,13 @@ import { CartItemsComponent } from './cart-items/cart-items.component';
 })
 export class CartComponent {
 
-  onCheckout() {
-    console.log(`Checking out submit`);
-  }
-
   private itemService = inject(ItemService);
   
   cartItems = this.itemService.getCartItems();
   cartCount = this.itemService.cartCount;
   totalAmount = this.itemService.cartTotal;
+
+  onCheckout() {
+    console.log(`Checking out submit`);
+  }
 }

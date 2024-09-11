@@ -10,24 +10,24 @@ import { ItemService } from '../../home/item/item.service';
   styleUrl: './cart-items.component.scss'
 })
 export class CartItemsComponent {
-  @Input({required: true}) book!: BookData;
+  @Input({required: true}) book!: BookData & { quantity: number };
 
-  quantity = signal(1);
+  private itemService = inject(ItemService);
 
-  constructor(private itemService: ItemService) {}
-
-  increaseQuantity(book: BookData) {
-    this.quantity.update(q => q + 1);
-  }
-
-  decreaseQuantity(book: BookData) {
-    if (this.quantity() > 1) {
-      this.quantity.update(q => q - 1);
-    }
-  }
+  //quantity = this.itemService.quantity;
 
   onDeleteItem(bookId: string){
     this.itemService.deleteCartItem(bookId);
+  }
+
+  increaseQuantity() {
+    this.itemService.updateQuantity(this.book.id, this.book.quantity + 1);
+  }
+
+  decreaseQuantity() {
+    if (this.book.quantity > 1) {
+      this.itemService.updateQuantity(this.book.id, this.book.quantity - 1);
+    }
   }
 
 }

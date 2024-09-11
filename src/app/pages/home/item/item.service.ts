@@ -1,6 +1,9 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { BookData } from './item.model';
 
+interface CartItem extends BookData {
+  quantity: number;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -72,9 +75,11 @@ export class ItemService {
     },
   ];
 
-  private cartItemsSignal = signal<BookData[]>([]);
+  private cartItemsSignal = signal<CartItem[]>([]);
+  //quantity = signal<number>(1);
   cartCount = computed(() => this.cartItemsSignal().length);
-  cartTotal = computed(() => this.cartItemsSignal().reduce((total, item) => total + item.price, 0));
+  cartTotal = computed(() => this.cartItemsSignal().reduce((total, item) => total +  (item.quantity * item.price), 0));
+  
 
   constructor() {
     this.loadBooksFromLocalStorage();
@@ -108,17 +113,39 @@ export class ItemService {
   }
 
   addToCart(book: BookData) {
-    if (!this.cartItemsSignal().some(item => item.id === book.id)) {
-      this.cartItemsSignal.update(items => [...items, book]);
-      this.saveCartToLocalStorage();
-      console.log(`${book.name} added to cart`);
-    } else {
-      console.log(`${book.name} is already in the cart`);
-    }
+    this.cartItemsSignal.update(items => {
+      const existingItem = items.find(item => item.id === book.id);
+      if (existingItem) {
+        existingItem.quantity++;
+        return [...items];
+      } else {
+        return [...items, { ...book, quantity: 1 }];
+      }
+    });
+    this.saveCartToLocalStorage();
   }
 
   getCartItems() {
     return this.cartItemsSignal;
+  }
+
+  // increaseQuantity(book: BookData) {
+  //   this.quantity.update(q => q + 1);
+  // }
+
+  // decreaseQuantity(book: BookData) {
+  //   if (this.quantity() > 1) {
+  //     this.quantity.update(q => q - 1);
+  //   }
+  // }
+
+  updateQuantity(bookId: string, quantity: number) {
+    this.cartItemsSignal.update(items => 
+      items.map(item => 
+        item.id === bookId ? { ...item, quantity: Math.max(1, quantity) } : item
+      )
+    );
+    this.saveCartToLocalStorage();
   }
 
   deleteCartItem(id: string) {
